@@ -28,36 +28,41 @@ class BottomNavigationViewHelper {
                     when(item.itemId){
                         R.id.icon_home ->{
                             val intent = Intent(context, HomeActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             context.startActivity(intent)
                             return true
 
                         }
                         R.id.icon_search ->{
                             val intent = Intent(context, SearchActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             context.startActivity(intent)
+
                             return true
                         }
                         R.id.icon_share ->{
                             val intent = Intent(context, ShareActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             context.startActivity(intent)
                             return true
                         }
                         R.id.icon_like ->{
                             val intent = Intent(context, LikeActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             context.startActivity(intent)
                             return true
                         }
                         R.id.icon_profile ->{
                             val intent = Intent(context, ProfileActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             context.startActivity(intent)
                             return true
                         }
                     }
                     return false
                 }
-
-
             }
         }
+
     }
 }
