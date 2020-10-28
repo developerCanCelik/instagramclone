@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cordinatorLayout"
@@ -12,112 +13,197 @@
         android:layout_height="match_parent"
         android:background="#F8F8F8">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/userToolbarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="1907cancelik"
+            android:textColor="@color/siyah"
+            android:textSize="23sp"
+            app:layout_constraintBottom_toBottomOf="@+id/discoverPeopleImageView"
+            app:layout_constraintEnd_toStartOf="@+id/discoverPeopleImageView"
+            app:layout_constraintHorizontal_bias="0.058"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@+id/profileOptionsImageView" />
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@+id/toolbar">
+        <ImageView
+            android:id="@+id/profileOptionsImageView"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="5sp"
+            app:srcCompat="@drawable/ic_profile_options" />
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentInsetStart="0dp"
-                    android:contentInsetEnd="0dp"
-                    android:contentInsetRight="0dp"
-                    app:contentInsetEnd="0dp"
-                    app:contentInsetLeft="0dp"
-                    app:contentInsetRight="0dp"
-                    app:contentInsetStart="0dp">
+        <ImageView
+            android:id="@+id/discoverPeopleImageView"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/profileOptionsImageView"
+            app:layout_constraintEnd_toStartOf="@+id/profileOptionsImageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="5sp"
+            app:srcCompat="@drawable/ic_discover_people" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/toolbar_constraintLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/image_camera"
-                            android:layout_width="55dp"
-                            android:layout_height="28dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="2dp"
-                            app:layout_constraintBottom_toTopOf="@+id/golgelik"
-                            app:layout_constraintEnd_toStartOf="@+id/image_instagram"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/camera_icon" />
-
-                        <ImageView
-                            android:id="@+id/image_dm"
-                            android:layout_width="69dp"
-                            android:layout_height="44dp"
-                            android:layout_marginStart="24dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toEndOf="@+id/image_instagram"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.4"
-                            app:srcCompat="@drawable/tab_direct_message" />
-
-                        <ImageView
-                            android:id="@+id/image_instagram"
-                            android:layout_width="233dp"
-                            android:layout_height="52dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.446"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0"
-                            app:srcCompat="@drawable/instagram" />
-
-                        <View
-                            android:id="@+id/golgelik"
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginBottom="0dp"
-                            android:background="@color/bottom"
-                            android:foregroundTint="#FFFFFF"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/image_camera" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.appcompat.widget.Toolbar>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+        <View
+            android:id="@+id/golgelikToolbar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#000000"
+            android:layout_height="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/bottom"
+            android:foregroundTint="#FFFFFF"
             app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar">
+            app:layout_constraintTop_toBottomOf="@+id/discoverPeopleImageView" />
 
-        </androidx.viewpager2.widget.ViewPager2>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="82dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="20dp"
+            android:fitsSystemWindows="true"
+            android:src="@drawable/ic_discover_people"
+            app:civ_border_color="@color/siyah"
+            app:civ_border_width="1dp"
+            app:layout_collapseMode="parallax"
+            app:layout_constraintBottom_toBottomOf="@+id/takipciTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/golgelikToolbar"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/postsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="64"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/followersText"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toTopOf="@+id/profile_image" />
+
+        <TextView
+            android:id="@+id/gonderiTextView"
+            android:layout_width="67dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="20dp"
+            android:text="Gönderi"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/takipciTextView"
+            app:layout_constraintEnd_toEndOf="@+id/postsText"
+            app:layout_constraintHorizontal_bias="0.478"
+            app:layout_constraintStart_toStartOf="@+id/postsText"
+            app:layout_constraintTop_toBottomOf="@+id/postsText"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/followersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="1453"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/followingText"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/postsText"
+            app:layout_constraintTop_toBottomOf="@+id/golgelikToolbar" />
+
+        <TextView
+            android:id="@+id/takipTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text=" Takip"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="@+id/followingText"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="@+id/followingText"
+            app:layout_constraintTop_toBottomOf="@+id/followingText" />
+
+        <TextView
+            android:id="@+id/followingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="610"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/followersText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/followersText" />
+
+        <TextView
+            android:id="@+id/takipciTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Takipçi"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/takipTextView"
+            app:layout_constraintEnd_toEndOf="@+id/followersText"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/followersText"
+            app:layout_constraintTop_toBottomOf="@+id/followersText" />
+
+        <TextView
+            android:id="@+id/profileUserText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:text="Hasan Can Çelik"
+            android:textColor="@color/siyah"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        <TextView
+            android:id="@+id/biographyText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="27dp"
+            android:text="1907FenerBahçeSporKulübü"
+            android:textColor="@color/siyah"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+        <TextView
+            android:id="@+id/editProfile"
+            android:layout_width="389dp"
+            android:layout_height="29dp"
+            android:background="@drawable/edit_profile_button_profile"
+            android:padding="2dp"
+            android:text="Profili Düzenle"
+            android:textAlignment="center"
+            android:textColor="@color/siyah"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/biographyText" />
 
         <View
             android:id="@+id/golgelik2"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:background="@color/bottom"
             android:foregroundTint="#FFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -140,6 +226,7 @@
             app:menu="@menu/bottom_navigation_menu">
 
         </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
