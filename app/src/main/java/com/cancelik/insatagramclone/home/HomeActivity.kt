@@ -9,6 +9,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.cancelik.insatagramclone.R
 import com.cancelik.insatagramclone.utils.BottomNavigationViewHelper
 import com.cancelik.insatagramclone.utils.HomePagerAdaptor
+import com.cancelik.insatagramclone.utils.UniversalImageLoader
+import com.nostra13.universalimageloader.core.ImageLoader
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -18,8 +20,13 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        initImageLoader()
         setupNavigationView()
         homePagerAdaptor()
+    }
+    private fun initImageLoader() {
+        val universalImageLoader = UniversalImageLoader(this@HomeActivity)
+        ImageLoader.getInstance().init(universalImageLoader.config)
     }
     fun setupNavigationView(){
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView)

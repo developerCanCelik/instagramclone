@@ -72,15 +72,14 @@
 
                         <ImageView
                             android:id="@+id/image_instagram"
-                            android:layout_width="233dp"
-                            android:layout_height="52dp"
+                            android:layout_width="205dp"
+                            android:layout_height="39dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.446"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0"
-                            app:srcCompat="@drawable/instagram" />
+                            app:layout_constraintVertical_bias="0.529"
+                            app:srcCompat="@drawable/jpg" />
 
                         <View
                             android:id="@+id/golgelik"
