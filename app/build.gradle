@@ -59,6 +59,8 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
     //universal image loader
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    //green robot eventbus
+    implementation 'org.greenrobot:eventbus:3.2.0'
 
 
 
