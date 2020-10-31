@@ -104,17 +104,18 @@
             android:text="Hesabın zaten var mı?"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.363"
+            app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bottomBarView"
-            app:layout_constraintVertical_bias="0.454" />
+            app:layout_constraintTop_toTopOf="@+id/bottomBarView"
+            app:layout_constraintVertical_bias="0.478" />
 
         <TextView
             android:id="@+id/loginTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="116dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="108dp"
             android:layout_marginBottom="12dp"
             android:text="Giriş Yap"
             android:textColor="#808080"
@@ -124,6 +125,7 @@
             app:layout_constraintStart_toEndOf="@+id/loginTextView0"
             app:layout_constraintTop_toBottomOf="@+id/bottomBarView" />
 
+
         <EditText
             android:id="@+id/registerEditText"
             android:layout_width="354dp"
@@ -131,11 +133,11 @@
             android:layout_marginStart="34dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="34dp"
-            android:inputType="number"
             android:background="@drawable/register_edit_text"
             android:ems="10"
             android:hint="Telefon"
             android:importantForAutofill="no"
+            android:inputType="phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mailPhoneView" />

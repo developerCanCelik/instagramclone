@@ -8,16 +8,20 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.cancelik.insatagramclone.R
 import com.cancelik.insatagramclone.utils.EventbusDataEvents
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
+    lateinit var manager : FragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         //phoneTextView mailTextView
+        manager = supportFragmentManager
+        manager.addOnBackStackChangedListener(this)
         init()
     }
 
@@ -56,7 +60,8 @@ class RegisterActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //Text değiştirildiğinde
-                if (start+before+count >= 10){
+                //start+before+count yerine daha kısa kod yazdık
+                if (s!!.length >= 10){
                     ileri.isEnabled= true
                     ileri.setTextColor(ContextCompat.getColor(this@RegisterActivity,R.color.beyaz))
                     ileri.setBackgroundColor(ContextCompat.getColor(this@RegisterActivity,R.color.mavi))
@@ -84,23 +89,34 @@ class RegisterActivity : AppCompatActivity() {
                 transaction.addToBackStack("PhoneCode")
                 transaction.commit()
                 //Event Bus
-                EventBus.getDefault().postSticky(EventbusDataEvents.TelefonNoGonder(registerEditText.text.toString()))
+                //DÜZELTME
+                EventBus.getDefault().postSticky(EventbusDataEvents.KayıtBilgilerimiGönder(registerEditText.text.toString(),null,null,null,false))
             }
             else{
                 Toast.makeText(this,"E-posta Giriş Yöntemi Seçildi",Toast.LENGTH_LONG).show()
                 registerActivityRoot.visibility = View.GONE
                 registerActivityContainer.visibility = View.VISIBLE
                 var transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.registerActivityContainer,EmailCodeFragment())
+                transaction.replace(R.id.registerActivityContainer,RegisterFormFragment())
                 transaction.addToBackStack("EmailCode")
                 transaction.commit()
-                EventBus.getDefault().postSticky(EventbusDataEvents.EmailGonder(registerEditText.text.toString()))
+                //DÜZELTME
+                EventBus.getDefault().postSticky(EventbusDataEvents.KayıtBilgilerimiGönder(null,registerEditText.text.toString(),null,null,true))
             }
         }
     }
-
+/*
     override fun onBackPressed() {
         registerActivityRoot.visibility = View.VISIBLE
         super.onBackPressed()
+    }
+
+ */
+    //Geri tuşuna basma kısmı
+    override fun onBackStackChanged() {
+        val elemanSayisi= manager.backStackEntryCount
+        if (elemanSayisi == 0) {
+            registerActivityRoot.visibility = View.VISIBLE
+        }
     }
 }
