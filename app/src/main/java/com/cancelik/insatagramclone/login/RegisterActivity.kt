@@ -10,16 +10,21 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.cancelik.insatagramclone.R
+import com.cancelik.insatagramclone.model.Users
 import com.cancelik.insatagramclone.utils.EventbusDataEvents
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 
 class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
     lateinit var manager : FragmentManager
+    lateinit var ref : DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         //phoneTextView mailTextView
+        ref = FirebaseDatabase.getInstance().reference
+        //şu an ben databasenin en dışındayım
         manager = supportFragmentManager
         manager.addOnBackStackChangedListener(this)
         init()
@@ -80,28 +85,87 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
         })
         ileri.setOnClickListener {
             //Telefon, E-Posta
-            if (registerEditText.hint.toString().equals("Telefon")){
-                Toast.makeText(this,"Telefon Giriş Yöntemi Seçildi",Toast.LENGTH_LONG).show()
-                registerActivityRoot.visibility = View.GONE
-                registerActivityContainer.visibility = View.VISIBLE
-                var transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.registerActivityContainer,PhoneCodeFragment())
-                transaction.addToBackStack("PhoneCode")
-                transaction.commit()
-                //Event Bus
-                //DÜZELTME
-                EventBus.getDefault().postSticky(EventbusDataEvents.KayıtBilgilerimiGönder(registerEditText.text.toString(),null,null,null,false))
+            //Düzeltilen Yerler
+            if (registerEditText.hint.toString().equals("Telefon")) {
+                Toast.makeText(this, "Telefon Giriş Yöntemi Seçildi", Toast.LENGTH_LONG).show()
+                if (isValidPhone(registerEditText.text.toString())) {
+                    var telefonKullanimdaMi = false
+                    ref.child("users").addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onCancelled(error: DatabaseError) {
+                        }
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.getValue()!= null) {
+                                for (user in snapshot.children) {
+                                    var okunanKullanicilar = user.getValue(Users::class.java)
+                                    if (okunanKullanicilar!!.phone_number!!.equals(registerEditText.text.toString())) {
+                                        Toast.makeText(
+                                            this@RegisterActivity,
+                                            "Telefon Daha Önceden Kullanılmış",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        telefonKullanimdaMi = true
+                                        break
+                                    }
+                                }
+                                if (telefonKullanimdaMi == false){
+                                    registerActivityRoot.visibility = View.GONE
+                                    registerActivityContainer.visibility = View.VISIBLE
+                                    var transaction = supportFragmentManager.beginTransaction()
+                                    transaction.replace(R.id.registerActivityContainer, PhoneCodeFragment())
+                                    transaction.addToBackStack("PhoneCode")
+                                    transaction.commit()
+                                    //Event Bus
+                                    //DÜZELTME
+                                    EventBus.getDefault().postSticky(EventbusDataEvents.KayıtBilgilerimiGönder(registerEditText.text.toString(), null, null, null, false))
+
+                                }
+                            }
+                        }
+                    })
+                }
+                else{
+                    Toast.makeText(this, "Doğru bir telefon numarası kullanınız", Toast.LENGTH_LONG).show()
+                }
             }
-            else{
-                Toast.makeText(this,"E-posta Giriş Yöntemi Seçildi",Toast.LENGTH_LONG).show()
-                registerActivityRoot.visibility = View.GONE
-                registerActivityContainer.visibility = View.VISIBLE
-                var transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.registerActivityContainer,RegisterFormFragment())
-                transaction.addToBackStack("EmailCode")
-                transaction.commit()
-                //DÜZELTME
-                EventBus.getDefault().postSticky(EventbusDataEvents.KayıtBilgilerimiGönder(null,registerEditText.text.toString(),null,null,true))
+            else {
+                Toast.makeText(this, "E-posta Giriş Yöntemi Seçildi", Toast.LENGTH_LONG).show()
+                if (isValidEmail(registerEditText.text.toString())) {
+                    //addListenerForSingleValueEvent kavramı o anlık kotrol yapıyor
+                    var emailKullanimdaMi = false
+                    ref.child("users").addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onCancelled(error: DatabaseError) {
+                        }
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.getValue()!= null){
+                                for (user in snapshot.children){
+                                    var okunanKullanicilar = user.getValue(Users :: class.java)
+                                    if (okunanKullanicilar!!.email!!.equals(registerEditText.text.toString())){
+                                        Toast.makeText(this@RegisterActivity,"Email Daha Önceden Kullanılmış",Toast.LENGTH_LONG).show()
+                                        emailKullanimdaMi = true
+                                        break
+                                    }
+                                }
+                                if (emailKullanimdaMi == false){
+                                    registerActivityRoot.visibility = View.GONE
+                                    registerActivityContainer.visibility = View.VISIBLE
+                                    var transaction = supportFragmentManager.beginTransaction()
+                                    transaction.replace(R.id.registerActivityContainer,RegisterFormFragment())
+                                    transaction.addToBackStack("EmailCode")
+                                    transaction.commit()
+                                    //DÜZELTME
+                                    EventBus.getDefault().postSticky(EventbusDataEvents.KayıtBilgilerimiGönder(null,registerEditText.text.toString(),null,null,true))
+                                }
+                            }
+                        }
+
+
+
+                    })
+                      }
+                else{
+                    Toast.makeText(this, "Doğru bir e-mail giriniz", Toast.LENGTH_LONG).show()
+
+                }
             }
         }
     }
@@ -118,5 +182,17 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
         if (elemanSayisi == 0) {
             registerActivityRoot.visibility = View.VISIBLE
         }
+    }
+    fun isValidEmail(kontrolEdilecekMail: String):Boolean{
+        if (kontrolEdilecekMail == null){
+            return false
+        }
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(kontrolEdilecekMail).matches()
+    }
+    fun isValidPhone(kontrolEdilecekTelefon: String):Boolean{
+        if (kontrolEdilecekTelefon == null || kontrolEdilecekTelefon.length>16){
+            return false
+        }
+        return android.util.Patterns.PHONE.matcher(kontrolEdilecekTelefon).matches()
     }
 }
