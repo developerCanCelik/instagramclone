@@ -34,7 +34,7 @@ class UniversalImageLoader(val mContext: FragmentActivity?) {
     companion object {
             private val defaultImage = R.drawable.jpg
             //Şu anlık drawable dan aldığımdan dolayı imgURL kısmını integer yaptık.
-            fun setImage(imgURL: String, imageView: CircleImageView, mProgressBar: ProgressBar?, ilk:String){
+            fun setImage(imgURL: String, imageView: CircleImageView, mProgressBar: ProgressBar?, ilk:String?){
                 val imageLoader = ImageLoader.getInstance()
                 val url = ilk+imgURL
                 imageLoader.displayImage(url,imageView,object : ImageLoadingListener{

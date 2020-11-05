@@ -1,26 +1,34 @@
 package com.cancelik.insatagramclone.profile
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.cancelik.insatagramclone.R
+import com.google.firebase.auth.FirebaseAuth
 
-class SignOutFragment : Fragment() {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_out, container, false)
+class SignOutFragment : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        var alert = AlertDialog.Builder(this!!.activity!!)
+            .setTitle("İnstagram'dan Çıkış Yap")
+            .setMessage("Emin misiniz ?")
+            .setPositiveButton("Çıkış Yap",object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    FirebaseAuth.getInstance().signOut()
+                    activity!!.finish()
+                }
+            })
+            .setNegativeButton("İptal",object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    dismiss()
+                }
+            }).create()
+        return alert
     }
 
 }

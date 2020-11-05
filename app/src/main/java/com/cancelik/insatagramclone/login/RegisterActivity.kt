@@ -1,5 +1,6 @@
 package com.cancelik.insatagramclone.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -10,27 +11,39 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.cancelik.insatagramclone.R
+import com.cancelik.insatagramclone.home.HomeActivity
 import com.cancelik.insatagramclone.model.Users
 import com.cancelik.insatagramclone.utils.EventbusDataEvents
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 
 class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
     lateinit var manager : FragmentManager
-    lateinit var ref : DatabaseReference
+    lateinit var auth: FirebaseAuth
+    lateinit var ref: DatabaseReference
+    lateinit var authListener : FirebaseAuth.AuthStateListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         //phoneTextView mailTextView
+        auth = FirebaseAuth.getInstance()
         ref = FirebaseDatabase.getInstance().reference
         //şu an ben databasenin en dışındayım
         manager = supportFragmentManager
         manager.addOnBackStackChangedListener(this)
         init()
+        setupAuthListener()
     }
 
     private fun init() {
+        loginTextView.setOnClickListener {
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            finish()
+        }
         mailTextView.setOnClickListener {
             phoneView.visibility = View.GONE
             mailView.visibility = View.VISIBLE
@@ -183,6 +196,7 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
             registerActivityRoot.visibility = View.VISIBLE
         }
     }
+
     fun isValidEmail(kontrolEdilecekMail: String):Boolean{
         if (kontrolEdilecekMail == null){
             return false
@@ -195,4 +209,37 @@ class RegisterActivity : AppCompatActivity(), FragmentManager.OnBackStackChanged
         }
         return android.util.Patterns.PHONE.matcher(kontrolEdilecekTelefon).matches()
     }
+
+    private fun setupAuthListener() {
+        //Kullanıcının oturum açıp açmadığı ile ilgili verileri tutan bir listener
+        authListener = object : FirebaseAuth.AuthStateListener{
+            override fun onAuthStateChanged(p0: FirebaseAuth) {
+                var user = FirebaseAuth.getInstance().currentUser
+                if (user != null){
+                    val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    startActivity(intent)
+                    finish()
+
+                }
+                else{
+
+                }
+            }
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        auth.addAuthStateListener(authListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (authListener != null){
+            auth.removeAuthStateListener(authListener)
+        }
+    }
+
 }

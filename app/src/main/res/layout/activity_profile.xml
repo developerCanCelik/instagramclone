@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profileRoot"
@@ -36,7 +36,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginTop="5sp"
-            app:srcCompat="@drawable/ic_profile_options" />
+            app:srcCompat="@drawable/ic_profile_options"
+            tools:ignore="VectorDrawableCompat" />
 
         <ImageView
             android:id="@+id/discoverPeopleImageView"
@@ -48,7 +49,8 @@
             app:layout_constraintEnd_toStartOf="@+id/profileOptionsImageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginTop="5sp"
-            app:srcCompat="@drawable/ic_discover_people" />
+            app:srcCompat="@drawable/ic_discover_people"
+            tools:ignore="VectorDrawableCompat" />
 
         <View
             android:id="@+id/golgelikToolbar"
@@ -97,7 +99,7 @@
             android:id="@+id/gonderiTextView"
             android:layout_width="67dp"
             android:layout_height="23dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:text="Gönderi"
             android:textColor="@color/siyah"
             android:textSize="18dp"
@@ -126,7 +128,7 @@
             android:id="@+id/takipTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:text=" Takip"
             android:textColor="@color/siyah"
             android:textSize="18dp"
@@ -152,7 +154,7 @@
             android:id="@+id/takipciTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:text="Takipçi"
             android:textColor="@color/siyah"
             android:textSize="18dp"
@@ -174,16 +176,29 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
         <TextView
             android:id="@+id/biographyText"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="20dp"
             android:text="1907FenerBahçeSporKulübü"
             android:textColor="@color/siyah"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+            app:layout_constraintTop_toBottomOf="@+id/profileUserText" />
+
+        <TextView
+            android:id="@+id/internetText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="bloggerkoala.com"
+            android:textColor="@color/siyah"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileUserText" />
 
         <TextView
             android:id="@+id/editProfile"
@@ -217,15 +232,15 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
             android:layout_height="70dp"
+            android:background="@color/beyaz"
             android:pointerIcon="zoom_in"
             app:itemIconTint="@color/common_google_signin_btn_text_light_pressed"
             app:layout_anchorGravity="bottom|center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_navigation_menu">
+            app:menu="@menu/bottom_navigation_menu" />
 
-        </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -243,7 +258,14 @@
     <FrameLayout
         android:id="@+id/profileConteiner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_anchor="@+id/profileRoot"
+        app:layout_anchorGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
     </FrameLayout>
 

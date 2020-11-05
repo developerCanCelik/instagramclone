@@ -3,6 +3,8 @@ package com.cancelik.insatagramclone.utils
 import android.content.Context
 import android.content.Intent
 import android.view.MenuItem
+import android.view.View
+import android.view.View.*
 import androidx.core.content.ContextCompat.startActivity
 import com.cancelik.insatagramclone.R
 import com.cancelik.insatagramclone.home.HomeActivity
@@ -20,6 +22,7 @@ class BottomNavigationViewHelper {
             bottomNavigationViewEx.enableItemShiftingMode(false)
             bottomNavigationViewEx.enableShiftingMode(false)
             bottomNavigationViewEx.setTextVisibility(false)
+
         }
         //Öğelerin tıklanmasını yaptık
         fun setupNavigation(context: Context,bottomNavigationViewEx: BottomNavigationViewEx){

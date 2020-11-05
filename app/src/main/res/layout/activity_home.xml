@@ -99,19 +99,6 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPagerHome"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar">
-
-        </androidx.viewpager.widget.ViewPager>
-
         <View
             android:id="@+id/golgelik2"
             android:layout_width="match_parent"
@@ -129,6 +116,7 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
             android:layout_height="70dp"
+            android:background="@color/beyaz"
             android:pointerIcon="zoom_in"
             app:itemIconTint="@color/common_google_signin_btn_text_light_pressed"
             app:layout_anchorGravity="bottom|center"
@@ -138,6 +126,18 @@
             app:menu="@menu/bottom_navigation_menu">
 
         </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerHome"
+            android:layout_width="0dp"
+            android:layout_height="538dp"
+            android:background="@color/siyah"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+        </androidx.viewpager.widget.ViewPager>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

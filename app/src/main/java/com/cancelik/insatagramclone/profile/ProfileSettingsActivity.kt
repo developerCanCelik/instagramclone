@@ -28,11 +28,8 @@ class ProfileSettingsActivity : AppCompatActivity() {
             transaction.commit()
         }
         cikis_yap.setOnClickListener {
-            profileSettingsRoot.visibility = View.GONE
-            var transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.profileSettingsConteiner,SignOutFragment())
-
-            transaction.commit()
+            var dialog = SignOutFragment()
+            dialog.show(supportFragmentManager,"cikisYapDialog")
         }
     }
 
