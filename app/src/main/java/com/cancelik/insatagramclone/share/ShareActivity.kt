@@ -3,30 +3,42 @@ package com.cancelik.insatagramclone.share
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.viewpager.widget.ViewPager
 import com.cancelik.insatagramclone.R
 import com.cancelik.insatagramclone.login.LoginActivity
-import com.cancelik.insatagramclone.utils.BottomNavigationViewHelper
+import com.cancelik.insatagramclone.utils.SharePagerAdaptor
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_share.*
 
 class ShareActivity : AppCompatActivity() {
-    private val ACTIVITY_NO = 2
+    lateinit var sharePagerAdaptor : SharePagerAdaptor
     lateinit var auth: FirebaseAuth
     lateinit var authListener : FirebaseAuth.AuthStateListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_share)
         auth = FirebaseAuth.getInstance()
+        sharePagerAdaptor()
         setupAuthListener()
-        setupNavigationView()
+
     }
-    fun setupNavigationView(){
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView)
-        BottomNavigationViewHelper.setupNavigation(this,bottomNavigationView)
-        var menu = bottomNavigationView.menu
-        val menuItem = menu.getItem(ACTIVITY_NO)
-        menuItem.setChecked(true)
+
+    private fun sharePagerAdaptor() {
+        var tabLayoutName = ArrayList<String>()
+        tabLayoutName.add(0,"GALLERY")
+        tabLayoutName.add(1,"FOTOĞRAF")
+        tabLayoutName.add(2,"VİDEO")
+        val viewPager : ViewPager = findViewById(R.id.shareViewPager)
+        sharePagerAdaptor = SharePagerAdaptor(supportFragmentManager,tabLayoutName)
+        sharePagerAdaptor.addFragment(ShareGalleryFragment())
+        sharePagerAdaptor.addFragment(ShareCameraFragment())
+        sharePagerAdaptor.addFragment(ShareVideoFragment())
+        viewPager.adapter = sharePagerAdaptor
+        shareTabLayout.setupWithViewPager(viewPager)
+        viewPager.currentItem = 1
+
     }
+
     private fun setupAuthListener() {
         //Kullanıcının oturum açıp açmadığı ile ilgili verileri tutan bir listener
         authListener = object : FirebaseAuth.AuthStateListener{

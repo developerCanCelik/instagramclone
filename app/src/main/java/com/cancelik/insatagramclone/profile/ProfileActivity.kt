@@ -41,6 +41,8 @@ class ProfileActivity : AppCompatActivity() {
     }
     //addListenerForSingleValueEvent yerine addValueEventListener
     private fun userInformation() {
+        editProfile.isEnabled = false
+        profileOptionsImageView.isEnabled = false
         ref.child("users").child(userInformation.uid).addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
 
@@ -51,6 +53,8 @@ class ProfileActivity : AppCompatActivity() {
                     var userParsed = snapshot.getValue(Users::class.java)
 
                     EventBus.getDefault().postSticky(EventbusDataEvents.KullaniciBilgileriniGonder(userParsed))
+                    editProfile.isEnabled = true
+                    profileOptionsImageView.isEnabled = true
 
                     userToolbarText.text = userParsed!!.user_name
                     profileUserText.text = userParsed!!.name_surname
