@@ -13,6 +13,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,15 +55,14 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.0.0')
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
-    //firebaseUI
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+
     implementation 'com.firebaseui:firebase-ui-auth:6.3.0'
     //noinspection GradleCompatible
     implementation "com.android.support:design:26.1.0"
-
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.4'
     //noinspection GradleCompatible
     implementation "com.android.support:design:28.0.0"
-
     //circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.mikhaellopez:circularimageview:4.2.0'
@@ -70,7 +70,16 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     //green robot eventbus
     implementation 'org.greenrobot:eventbus:3.2.0'
-
+    //video view
+    implementation 'com.linsea:universalvideoview:1.1.0@aar'
+    //crop
+    implementation "com.naver.android.helloyako:imagecropview:1.2.3"
+    //dexter
+    implementation 'com.karumi:dexter:6.2.1'
+    //siliCompressor
+    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.exifinterface:exifinterface:1.3.1'
 
 
 

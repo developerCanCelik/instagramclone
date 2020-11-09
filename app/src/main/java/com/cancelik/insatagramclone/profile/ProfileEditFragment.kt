@@ -1,12 +1,10 @@
 package com.cancelik.insatagramclone.profile
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,24 +14,14 @@ import com.cancelik.insatagramclone.R
 import com.cancelik.insatagramclone.model.Users
 import com.cancelik.insatagramclone.utils.EventbusDataEvents
 import com.cancelik.insatagramclone.utils.UniversalImageLoader
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
-import com.nostra13.universalimageloader.core.ImageLoader
-import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_profile.view.*
-import kotlinx.android.synthetic.main.fragment_profile_edit.*
 import kotlinx.android.synthetic.main.fragment_profile_edit.view.*
 import kotlinx.android.synthetic.main.fragment_profile_edit.view.biographyText
 import kotlinx.android.synthetic.main.fragment_profile_edit.view.profile_image
-import kotlinx.android.synthetic.main.fragment_register_form.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import java.lang.Exception
 
 class ProfileEditFragment : Fragment() {
     //lateinit var circleImageViewFragment: CircleImageView
