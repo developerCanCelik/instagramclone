@@ -1,0 +1,314 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 2384136653afdd4033e233ea447d09125e4efc53)
++++ app/build.gradle	(date 1605052575120)
+@@ -80,6 +80,8 @@
+     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
+     implementation 'androidx.multidex:multidex:2.0.1'
+     implementation 'androidx.exifinterface:exifinterface:1.3.1'
++    implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
++    //implementation 'com.cleveroad.bootstrap:kotlin-ffmpeg-video-compress:2.0.0'
+ 
+ 
+ 
+Index: app/src/main/java/com/cancelik/insatagramclone/utils/FileOperations.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/cancelik/insatagramclone/utils/FileOperations.kt	(revision 2384136653afdd4033e233ea447d09125e4efc53)
++++ app/src/main/java/com/cancelik/insatagramclone/utils/FileOperations.kt	(date 1605053059635)
+@@ -1,5 +1,6 @@
+ package com.cancelik.insatagramclone.utils
+ 
++import android.net.Uri
+ import android.os.Environment
+ import androidx.fragment.app.Fragment
+ import com.cancelik.insatagramclone.profile.UploadFragment
+@@ -8,13 +9,13 @@
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.launch
+ import kotlinx.coroutines.runBlocking
+-import kotlinx.coroutines.withContext
+ import java.io.File
+ import java.util.*
+ import kotlin.Comparator
+ import kotlin.collections.ArrayList
+ 
+ class FileOperations {
++
+     companion object {
+         fun incomingFolderFiles(folderName : String) : ArrayList<String>{
+             var allFiles = ArrayList<String>()
+@@ -58,37 +59,55 @@
+             return allFiles
+         }
+ 
+-
+-
+-
+-
+-    /*
+-        fun compressImageFile(shareNextFragment: Fragment, selectImagePath: String?) {
++        fun compressImageFile(shareNextFragment: Fragment, photoURI: Uri) {
++            var dialogUpload : UploadFragment
+             runBlocking {
+-                    val job = launch(Dispatchers.Default) {
+-                        println("iş başladı")
+-                        var newFileFolder = File(Environment.getExternalStorageDirectory().absolutePath + "/DCIM/Camera/Test/")
+-                        var newFileFolderPaths = SiliCompressor.with(shareNextFragment.context)
+-                                .compress(selectImagePath, newFileFolder)
+-                        println(newFileFolder)
+-                        println(newFileFolderPaths)
+-                        (shareNextFragment as ShareNextFragment).(newFileFolderPaths)
+-
+-                    }
+-                    job.invokeOnCompletion {
+-                       println("iş Bitti")
+-                    }
+-                   job.cancel()
+-                }
++                val job = launch(Dispatchers.Default) {
++                    dialogUpload = UploadFragment()
++                    dialogUpload.show(shareNextFragment.activity!!.supportFragmentManager, "uploadFragment")
++                    dialogUpload.isCancelable = false
++                    var newFolderPaths = File(Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Screenshots/")
++                    var newFilePaths = SiliCompressor.with(shareNextFragment.context).compress(photoURI.toString(), newFolderPaths)
++                    var newFileUri = Uri.parse("file://" + newFilePaths)
++                    (shareNextFragment as ShareNextFragment).newUpload(newFileUri)
++                    dialogUpload.dismiss()
++                }
++                job.cancel()
++
++            }
++
++        }
+ 
++        fun compressVideoFile(shareNextFragment: Fragment, videoURI: Uri)  {
++            /*
++            var dialogUpload : UploadFragment
++            runBlocking {
++                val jobVideo = launch (Dispatchers.Default){
++                    dialogUpload = UploadFragment()
++                    dialogUpload.show(shareNextFragment.activity!!.supportFragmentManager, "uploadFragment")
++                    println("buraya gelindi")
++                    dialogUpload.isCancelable = false
++                    var newVideoFolderPaths = File(shareNextFragment.activity!!.getExternalFilesDir(Environment.DIRECTORY_DCIM+"/Pictures/Screenshots/")!!.absolutePath)
++                    println(newVideoFolderPaths)
++                    var newVideoFilePaths = SiliCompressor.with(shareNextFragment.context).compressVideo(videoURI,newVideoFolderPaths.path)
++                    var newFileUri = Uri.parse("file://" + newVideoFilePaths)
++                    println(newVideoFilePaths)
++                    (shareNextFragment as ShareNextFragment).newUpload(newFileUri)
+ 
+-        }
++                }
++                jobVideo.cancel()
++            }
+ 
+-     */
++             */
+ 
++            /*
++            var newFileUri = videoURI
++            (shareNextFragment as ShareNextFragment).newUpload(newFileUri)
+ 
++             */
+ 
+ 
++        }
+ 
+ 
+     }
+Index: app/src/main/java/com/cancelik/insatagramclone/utils/EventbusDataEvents.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/cancelik/insatagramclone/utils/EventbusDataEvents.kt	(revision 2384136653afdd4033e233ea447d09125e4efc53)
++++ app/src/main/java/com/cancelik/insatagramclone/utils/EventbusDataEvents.kt	(date 1605039212628)
+@@ -7,5 +7,5 @@
+     internal class KayıtBilgilerimiGönder(var telNo: String?, var email: String?, var verificationID: String?, var code: String?, var emailRegister: Boolean?)
+     //verification ve code kısmı almamızın sebebi ise bunların telefon numarası ile kaydolma durumunda ihtiyacimizi görüyor
+     internal class KullaniciBilgileriniGonder(var kullanici : Users?)
+-    internal class PaylasilacakResmiGonder(var imagePath : String? ,  var fileTypeImage : Boolean?)
++    internal class PaylasilacakResmiGonder(var chosenFilePath : String?, var fileTypeImage : Boolean?)
+ }
+\ No newline at end of file
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision 2384136653afdd4033e233ea447d09125e4efc53)
++++ .idea/codeStyles/Project.xml	(date 1605053529736)
+@@ -1,5 +1,6 @@
+ <component name="ProjectCodeStyleConfiguration">
+   <code_scheme name="Project" version="173">
++    <option name="AUTODETECT_INDENTS" value="false" />
+     <JetCodeStyleSettings>
+       <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+         <value>
+Index: app/src/main/java/com/cancelik/insatagramclone/share/ShareNextFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/cancelik/insatagramclone/share/ShareNextFragment.kt	(revision 2384136653afdd4033e233ea447d09125e4efc53)
++++ app/src/main/java/com/cancelik/insatagramclone/share/ShareNextFragment.kt	(date 1605053126538)
+@@ -23,26 +23,24 @@
+ import com.google.firebase.database.DatabaseReference
+ import com.google.firebase.database.FirebaseDatabase
+ import com.google.firebase.database.ServerValue
+-import com.google.firebase.ktx.Firebase
+ import com.google.firebase.storage.FirebaseStorage
+ import com.google.firebase.storage.OnProgressListener
+ import com.google.firebase.storage.StorageReference
+ import com.google.firebase.storage.UploadTask
+-import com.iceteck.silicompressorr.SiliCompressor
+-import kotlinx.android.synthetic.main.fragment_share_next.*
+ import kotlinx.android.synthetic.main.fragment_share_next.view.*
+ import kotlinx.android.synthetic.main.fragment_upload.*
+ import org.greenrobot.eventbus.EventBus
+ import org.greenrobot.eventbus.Subscribe
+ import java.io.File
+-import java.lang.Exception
+ 
+ @Suppress("DEPRECATION")
+ class ShareNextFragment : Fragment() {
+     var selectImagePath : String? = null
++    var selectVideoPath : String? = null
+     var fileType : Boolean? = null
+     lateinit var newFileUri : Uri
+     lateinit var photoURI : Uri
++    lateinit var videoURI : Uri
+     lateinit var auth: FirebaseAuth
+     lateinit var ref : DatabaseReference
+     lateinit var storadgeRef : StorageReference
+@@ -59,27 +57,61 @@
+         UniversalImageLoader.setImage(selectImagePath!!,view!!.nextImageView,null,"file://")
+         //önceden photoUri kullanıyorduk
+         photoURI = Uri.parse("file://"+selectImagePath)
++        videoURI = Uri.parse("file://"+selectVideoPath)
+         view.nextFragmentPaylas.setOnClickListener {
+-            uploadPhotoToStoradge()
++            uploadPhotoOrVideoToStorage()
+         }
+         return view
+     }
+ 
+-    private fun uploadPhotoToStoradge() {
++    private fun uploadPhotoOrVideoToStorage() {
+         if (fileType == true) {
+-            var newFolderPaths =
+-                File(Environment.getExternalStorageDirectory().absolutePath+"/Pictures/Screenshots/")
+-            var newFilePaths =
+-                SiliCompressor.with(activity).compress(photoURI.toString(), newFolderPaths)
+-            newFileUri = Uri.parse("file://"+newFilePaths)
++            FileOperations.compressImageFile(this,photoURI)
++        }
++        else{
++            //FileOperations.compressVideoFile(this,videoURI)
++            var newVideoFolderPaths = File(Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Screenshots/")
++            println(newVideoFolderPaths)
++            var newVideoFilePaths = SiliCompressor.with(shareNextFragment.context).compressVideo(videoURI,newVideoFolderPaths.path)
++            var newFileUri = Uri.parse("file://" + newVideoFilePaths)
+             newUpload(newFileUri)
+-        } else {
+-            //Video Compress
+         }
++
++    }
+ 
++
++    private fun getDatabaseInFormation(downloadUri: String) {
++        //ilk önce düğümü oluşturduk sonra bu düğüme eklemeler yapıcaz
++        var postID = ref.child("posts").child(userInformation.uid).push().key
++        var uploadPost = Post(userInformation.uid,postID,"",view!!.nextEditText.text.toString(),downloadUri)
++        ref.child("posts").child(userInformation.uid).child(postID!!).setValue(uploadPost)
++        //yüklenme tarihi için
++        ref.child("posts").child(userInformation.uid).child(postID).child("upload_date").setValue(ServerValue.TIMESTAMP)
++
+     }
+ 
+-    private fun newUpload(newFileUri: Uri?) {
++
++    //Eventbus kısmı
++    @Subscribe(sticky = true)
++    internal fun onPaylasılacakResim(shareImage : EventbusDataEvents.PaylasilacakResmiGonder){
++        selectImagePath = shareImage!!.chosenFilePath
++        fileType = shareImage!!.fileTypeImage
++        selectVideoPath = shareImage!!.chosenFilePath
++
++
++
++    }
++    override fun onAttach(context: Context) {
++        super.onAttach(context)
++        EventBus.getDefault().register(this)
++    }
++
++    override fun onDetach() {
++        super.onDetach()
++        EventBus.getDefault().unregister(this)
++    }
++
++    fun newUpload(newFileUri: Uri?) {
+         var dialogUpload = UploadFragment()
+         dialogUpload.show(activity!!.supportFragmentManager, "uploadFragment")
+         dialogUpload.isCancelable = false
+@@ -116,36 +148,5 @@
+             })
+     }
+ 
+-    private fun getDatabaseInFormation(downloadUri: String) {
+-        //ilk önce düğümü oluşturduk sonra bu düğüme eklemeler yapıcaz
+-        var postID = ref.child("posts").child(userInformation.uid).push().key
+-        var uploadPost = Post(userInformation.uid,postID,"",view!!.nextEditText.text.toString(),downloadUri)
+-        ref.child("posts").child(userInformation.uid).child(postID!!).setValue(uploadPost)
+-        //yüklenme tarihi için
+-        ref.child("posts").child(userInformation.uid).child(postID).child("upload_date").setValue(ServerValue.TIMESTAMP)
+-
+-    }
+-
+-
+-    //Eventbus kısmı
+-    @Subscribe(sticky = true)
+-    internal fun onPaylasılacakResim(shareImage : EventbusDataEvents.PaylasilacakResmiGonder){
+-        selectImagePath = shareImage!!.imagePath
+-        fileType = shareImage!!.fileTypeImage
+-
+-
+-
+-    }
+-    override fun onAttach(context: Context) {
+-        super.onAttach(context)
+-        EventBus.getDefault().register(this)
+-    }
+-
+-    override fun onDetach() {
+-        super.onDetach()
+-        EventBus.getDefault().unregister(this)
+-    }
+-
+-
+ 
+ }
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 2384136653afdd4033e233ea447d09125e4efc53)
++++ app/src/main/AndroidManifest.xml	(date 1605051064848)
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     package="com.cancelik.insatagramclone">
+-
+     <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+     <uses-permission android:name="android.permission.CAMERA"/>

@@ -1,5 +1,6 @@
 package com.cancelik.insatagramclone.utils
 
+import android.net.Uri
 import android.os.Environment
 import androidx.fragment.app.Fragment
 import com.cancelik.insatagramclone.profile.UploadFragment
@@ -8,13 +9,13 @@ import com.iceteck.silicompressorr.SiliCompressor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 class FileOperations {
+
     companion object {
         fun incomingFolderFiles(folderName : String) : ArrayList<String>{
             var allFiles = ArrayList<String>()
@@ -58,37 +59,56 @@ class FileOperations {
             return allFiles
         }
 
-
-
-
-
-    /*
-        fun compressImageFile(shareNextFragment: Fragment, selectImagePath: String?) {
+        fun compressImageFile(shareNextFragment: Fragment, photoURI: Uri) {
+            var dialogUpload : UploadFragment
             runBlocking {
-                    val job = launch(Dispatchers.Default) {
-                        println("iş başladı")
-                        var newFileFolder = File(Environment.getExternalStorageDirectory().absolutePath + "/DCIM/Camera/Test/")
-                        var newFileFolderPaths = SiliCompressor.with(shareNextFragment.context)
-                                .compress(selectImagePath, newFileFolder)
-                        println(newFileFolder)
-                        println(newFileFolderPaths)
-                        (shareNextFragment as ShareNextFragment).(newFileFolderPaths)
-
-                    }
-                    job.invokeOnCompletion {
-                       println("iş Bitti")
-                    }
-                   job.cancel()
+                val job = launch(Dispatchers.Default) {
+                    dialogUpload = UploadFragment()
+                    dialogUpload.show(shareNextFragment.activity!!.supportFragmentManager, "uploadFragment")
+                    dialogUpload.isCancelable = false
+                    var newFolderPaths = File(Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Screenshots/")
+                    var newFilePaths = SiliCompressor.with(shareNextFragment.context).compress(photoURI.toString(), newFolderPaths.parentFile)
+                    var newFileUri = Uri.parse("file://" + newFilePaths)
+                    (shareNextFragment as ShareNextFragment).newUpload(newFileUri)
+                    dialogUpload.dismiss()
                 }
+                job.cancel()
 
+            }
 
         }
 
-     */
+        fun compressVideoFile(shareNextFragment: Fragment, videoURI: Uri)  {
+            var dialogUpload : UploadFragment
+            dialogUpload = UploadFragment()
+            dialogUpload.show(shareNextFragment.activity!!.supportFragmentManager, "uploadFragment")
+            dialogUpload.isCancelable = false
+            runBlocking {
+                val jobVideo = launch (Dispatchers.Default){
+                    val newFolderPaths =File(Environment.getExternalStorageDirectory().absolutePath+"/Pictures/Screenshots/")
+                    var newFilePaths : String? = null
+                    if (newFolderPaths.isDirectory || newFolderPaths.mkdirs()){
+                        newFilePaths = SiliCompressor.with(shareNextFragment.context).compressVideo(videoURI.toString(),newFolderPaths.canonicalPath)
+                    }
+                    if (!newFilePaths.isNullOrEmpty()){
+                        var newFileUri = Uri.parse("file://"+newFilePaths)
+                        (shareNextFragment as ShareNextFragment).newUpload(newFileUri)
+                        dialogUpload.dismiss()
+                    }
+                }
+                jobVideo.cancel()
+            }
 
 
 
+            /*
+            var newFileUri = videoURI
+            (shareNextFragment as ShareNextFragment).newUpload(newFileUri)
 
+             */
+
+
+        }
 
 
     }

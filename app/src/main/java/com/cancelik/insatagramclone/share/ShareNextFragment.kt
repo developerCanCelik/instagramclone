@@ -23,26 +23,25 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.iceteck.silicompressorr.SiliCompressor
-import kotlinx.android.synthetic.main.fragment_share_next.*
 import kotlinx.android.synthetic.main.fragment_share_next.view.*
 import kotlinx.android.synthetic.main.fragment_upload.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.io.File
-import java.lang.Exception
 
 @Suppress("DEPRECATION")
 class ShareNextFragment : Fragment() {
     var selectImagePath : String? = null
+    var selectVideoPath : String? = null
     var fileType : Boolean? = null
     lateinit var newFileUri : Uri
     lateinit var photoURI : Uri
+    lateinit var videoURI : Uri
     lateinit var auth: FirebaseAuth
     lateinit var ref : DatabaseReference
     lateinit var storadgeRef : StorageReference
@@ -59,27 +58,58 @@ class ShareNextFragment : Fragment() {
         UniversalImageLoader.setImage(selectImagePath!!,view!!.nextImageView,null,"file://")
         //önceden photoUri kullanıyorduk
         photoURI = Uri.parse("file://"+selectImagePath)
+        videoURI = Uri.parse("file://"+selectVideoPath)
         view.nextFragmentPaylas.setOnClickListener {
-            uploadPhotoToStoradge()
+            uploadPhotoOrVideoToStorage()
         }
         return view
     }
 
-    private fun uploadPhotoToStoradge() {
+    private fun uploadPhotoOrVideoToStorage() {
+        val dialogUpload : UploadFragment
         if (fileType == true) {
-            var newFolderPaths =
-                File(Environment.getExternalStorageDirectory().absolutePath+"/Pictures/Screenshots/")
-            var newFilePaths =
-                SiliCompressor.with(activity).compress(photoURI.toString(), newFolderPaths)
-            newFileUri = Uri.parse("file://"+newFilePaths)
-            newUpload(newFileUri)
-        } else {
-            //Video Compress
+            FileOperations.compressImageFile(this,photoURI)
+        }
+        else if(fileType == false){
+            FileOperations.compressVideoFile(this,photoURI)
+
         }
 
     }
 
-    private fun newUpload(newFileUri: Uri?) {
+
+    private fun getDatabaseInFormation(downloadUri: String) {
+        //ilk önce düğümü oluşturduk sonra bu düğüme eklemeler yapıcaz
+        var postID = ref.child("posts").child(userInformation.uid).push().key
+        var uploadPost = Post(userInformation.uid,postID,"",view!!.nextEditText.text.toString(),downloadUri)
+        ref.child("posts").child(userInformation.uid).child(postID!!).setValue(uploadPost)
+        //yüklenme tarihi için
+        ref.child("posts").child(userInformation.uid).child(postID).child("upload_date").setValue(ServerValue.TIMESTAMP)
+
+    }
+
+
+    //Eventbus kısmı
+    @Subscribe(sticky = true)
+    internal fun onPaylasılacakResim(shareImage : EventbusDataEvents.PaylasilacakResmiGonder){
+        selectImagePath = shareImage!!.chosenFilePath
+        fileType = shareImage!!.fileTypeImage
+        selectVideoPath = shareImage!!.chosenFilePath
+
+
+
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        EventBus.getDefault().unregister(this)
+    }
+
+    fun newUpload(newFileUri: Uri?) {
         var dialogUpload = UploadFragment()
         dialogUpload.show(activity!!.supportFragmentManager, "uploadFragment")
         dialogUpload.isCancelable = false
@@ -109,43 +139,11 @@ class ShareNextFragment : Fragment() {
             .addOnProgressListener(object : OnProgressListener<UploadTask.TaskSnapshot> {
                 override fun onProgress(snapshot: UploadTask.TaskSnapshot) {
                     var progress = 100 * snapshot.bytesTransferred / snapshot.totalByteCount
-                    dialogUpload.uploadTextView.text =
-                        "%" + progress.toInt().toString() + "yüklendi..."
+                    dialogUpload.uploadTextView.text = "%" + progress.toInt().toString() + "yüklendi..."
                 }
 
             })
     }
-
-    private fun getDatabaseInFormation(downloadUri: String) {
-        //ilk önce düğümü oluşturduk sonra bu düğüme eklemeler yapıcaz
-        var postID = ref.child("posts").child(userInformation.uid).push().key
-        var uploadPost = Post(userInformation.uid,postID,"",view!!.nextEditText.text.toString(),downloadUri)
-        ref.child("posts").child(userInformation.uid).child(postID!!).setValue(uploadPost)
-        //yüklenme tarihi için
-        ref.child("posts").child(userInformation.uid).child(postID).child("upload_date").setValue(ServerValue.TIMESTAMP)
-
-    }
-
-
-    //Eventbus kısmı
-    @Subscribe(sticky = true)
-    internal fun onPaylasılacakResim(shareImage : EventbusDataEvents.PaylasilacakResmiGonder){
-        selectImagePath = shareImage!!.imagePath
-        fileType = shareImage!!.fileTypeImage
-
-
-
-    }
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        EventBus.getDefault().unregister(this)
-    }
-
 
 
 }

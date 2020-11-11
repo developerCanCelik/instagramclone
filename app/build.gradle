@@ -80,6 +80,8 @@ dependencies {
     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.exifinterface:exifinterface:1.3.1'
+    implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
+    //implementation 'com.cleveroad.bootstrap:kotlin-ffmpeg-video-compress:2.0.0'
 
 
 

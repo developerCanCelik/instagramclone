@@ -82,7 +82,7 @@ class ShareGalleryFragment : Fragment() {
             var transaction = activity!!.supportFragmentManager.beginTransaction()
 
             EventBus.getDefault().postSticky(EventbusDataEvents.PaylasilacakResmiGonder(selectImagePaths,fileTypeImage))
-
+            videoView.stopPlayback()
             transaction.replace(R.id.shareActivityContainerFrameLayout,ShareNextFragment())
             transaction.addToBackStack("ShareNextFragment")
             transaction.commit()
