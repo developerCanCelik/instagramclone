@@ -69,7 +69,7 @@
             android:id="@+id/galleryImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/galleryImageGridView"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewFiles"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.7"
             android:background="@color/colorPrimaryDark"
@@ -102,12 +102,11 @@
 
         </FrameLayout>
 
-        <GridView
-            android:id="@+id/galleryImageGridView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFiles"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:numColumns="4"
             android:verticalSpacing="1dp"
             android:horizontalSpacing="1dp"
             app:layout_constraintBottom_toBottomOf="parent"

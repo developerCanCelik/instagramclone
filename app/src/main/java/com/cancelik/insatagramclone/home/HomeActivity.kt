@@ -30,9 +30,13 @@ class HomeActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         setupAuthListener()
         initImageLoader()
-        setupNavigationView()
         homePagerAdaptor()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupNavigationView()
     }
     private fun initImageLoader() {
         val universalImageLoader = UniversalImageLoader(this@HomeActivity)

@@ -1,5 +1,6 @@
 package com.cancelik.insatagramclone.share
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -11,15 +12,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.size
+import androidx.recyclerview.widget.GridLayoutManager
 import com.cancelik.insatagramclone.R
-import com.cancelik.insatagramclone.utils.EventbusDataEvents
-import com.cancelik.insatagramclone.utils.FileOperations
-import com.cancelik.insatagramclone.utils.ShareActivityGridViewAdapter
-import com.cancelik.insatagramclone.utils.UniversalImageLoader
+import com.cancelik.insatagramclone.utils.*
 import kotlinx.android.synthetic.main.activity_share.*
 import kotlinx.android.synthetic.main.fragment_share_gallery.*
 import kotlinx.android.synthetic.main.fragment_share_gallery.view.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 @Suppress("DEPRECATION")
 class ShareGalleryFragment : Fragment() {
@@ -72,7 +72,8 @@ class ShareGalleryFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    setupGridView(FileOperations.incomingFolderFiles(foldersPaths[position]))
+                    //setupGridView(FileOperations.incomingFolderFiles(foldersPaths[position]))
+                    setupRecyclerView(FileOperations.incomingFolderFiles(foldersPaths[position]))
             }
             //
         }
@@ -88,14 +89,35 @@ class ShareGalleryFragment : Fragment() {
             transaction.commit()
 
         }
+        view.galleryCloseIcon.setOnClickListener {
+            activity!!.onBackPressed()
+        }
 
 
 
 
         return view
     }
-    //değişen
 
+    private fun setupRecyclerView(incomingFolderFiles: java.util.ArrayList<String>) {
+        var recyclerViewAdapter = ShareActivityGalleryRecyclerView(incomingFolderFiles,activity!!)
+        //recyclerViewFiles ise bizim layout içindeki recyclerviewİd
+        recyclerViewFiles.adapter = recyclerViewAdapter
+        //burada listeyi nasıl göstermek isyorsak onu yazıuouz
+        var layoutManager = GridLayoutManager(this.activity,4)
+        recyclerViewFiles.setItemViewCacheSize(20)
+        recyclerViewFiles.setHasFixedSize(true)
+        recyclerViewFiles.setDrawingCacheEnabled(true)
+        recyclerViewFiles.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_LOW)
+        recyclerViewFiles.layoutManager = layoutManager
+        if (recyclerViewAdapter.folderFiles.size > 0){
+            selectImagePaths = incomingFolderFiles[0]
+            imageOrVideoIn(incomingFolderFiles[0])
+        }
+    }
+
+    //değişen
+    /*
     fun setupGridView(file_path : ArrayList<String>){
         var gridAdapter = ShareActivityGridViewAdapter(activity!!,R.layout.single_column_grid_image,file_path)
         galleryImageGridView.adapter = gridAdapter
@@ -115,6 +137,8 @@ class ShareGalleryFragment : Fragment() {
         })
 
     }
+
+     */
     //değişen
     private fun imageOrVideoIn(filePaths: String) {
         var fileType :String? = filePaths.substring(filePaths.lastIndexOf("."))
@@ -134,6 +158,22 @@ class ShareGalleryFragment : Fragment() {
             }
         }
 
+    }
+    //Eventbus kısmı
+    @Subscribe(sticky = true)
+    internal fun GaleriSecilenDosyaYolunuGonder(gallerySelect: EventbusDataEvents.GaleriSecilenDosyaYolunuGonder){
+        selectImagePaths = gallerySelect.fileClick
+        imageOrVideoIn(selectImagePaths!!)
+
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        EventBus.getDefault().unregister(this)
     }
 
 

@@ -24,7 +24,7 @@ import java.io.FileOutputStream
 @Suppress("DEPRECATION")
 class ShareCameraFragment : Fragment() {
 
-    lateinit var cameraView : CameraView
+    var cameraView : CameraView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +37,15 @@ class ShareCameraFragment : Fragment() {
     ): View? {
         var view =  inflater.inflate(R.layout.fragment_share_camera, container, false)
         cameraView = view.cameraView
-        cameraView.mapGesture(Gesture.PINCH,GestureAction.ZOOM)
+        cameraView!!.mapGesture(Gesture.PINCH,GestureAction.ZOOM)
         view.takePhotoView.setOnClickListener {
-            cameraView.capturePicture()
+            cameraView!!.capturePicture()
+        }
+        view.galleryFragmentImageClose.setOnClickListener{
+            activity!!.onBackPressed()
         }
 
-        cameraView.addCameraListener(object : CameraListener(){
+        cameraView!!.addCameraListener(object : CameraListener(){
             override fun onPictureTaken(jpeg: ByteArray?) {
                 super.onPictureTaken(jpeg)
                 var takePhotoName = System.currentTimeMillis()
@@ -65,17 +68,19 @@ class ShareCameraFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
-        cameraView.start()
+        cameraView!!.start()
     }
 
     override fun onPause() {
         super.onPause()
-        cameraView.stop();
+        cameraView!!.stop();
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        cameraView.destroy();
+        if (cameraView != null){
+            cameraView!!.destroy()
+        }
     }
 
 

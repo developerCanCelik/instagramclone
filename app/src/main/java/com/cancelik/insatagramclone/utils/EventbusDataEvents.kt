@@ -8,4 +8,6 @@ class EventbusDataEvents {
     //verification ve code kısmı almamızın sebebi ise bunların telefon numarası ile kaydolma durumunda ihtiyacimizi görüyor
     internal class KullaniciBilgileriniGonder(var kullanici : Users?)
     internal class PaylasilacakResmiGonder(var chosenFilePath : String?, var fileTypeImage : Boolean?)
+
+    internal class GaleriSecilenDosyaYolunuGonder(var fileClick : String)
 }

@@ -19,7 +19,7 @@ import java.io.File
 
 @Suppress("DEPRECATION")
 class ShareVideoFragment : Fragment() {
-    lateinit var videoView : CameraView
+    var videoView : CameraView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +29,7 @@ class ShareVideoFragment : Fragment() {
         videoView = view.videoView
         var createVideoFileName = System.currentTimeMillis()
         var createVideoFile = File(Environment.getExternalStorageDirectory().absolutePath+"/Pictures/Screenshots/"+createVideoFileName+".mp4")
-        videoView.addCameraListener(object : CameraListener(){
+        videoView!!.addCameraListener(object : CameraListener(){
             override fun onVideoTaken(video: File?) {
                 super.onVideoTaken(video)
                 activity!!.shareActivityRootConstraintLayout.visibility =  View.GONE
@@ -48,13 +48,13 @@ class ShareVideoFragment : Fragment() {
                 if (event!!.action == MotionEvent.ACTION_DOWN) {
                     //parmağım basılı durduğu an video çekim işlemi
                     //video çekmek işlemi yapıyorum
-                    videoView.startCapturingVideo(createVideoFile)
+                    videoView!!.startCapturingVideo(createVideoFile)
                     Toast.makeText(activity, "video Kayıt işlemi başladı", Toast.LENGTH_SHORT)
                         .show()
                     return true
                 } else if (event!!.action == MotionEvent.ACTION_UP) {
                     //parmağimi kaldırdığımda da video çekmeyi bırakmak için
-                    videoView.stopCapturingVideo()
+                    videoView!!.stopCapturingVideo()
                     Toast.makeText(activity, "video kayededildi", Toast.LENGTH_SHORT).show()
                     return true
                 }
@@ -63,22 +63,27 @@ class ShareVideoFragment : Fragment() {
             }
 
         })
+        view.galleryFragmentImageClose.setOnClickListener{
+            activity!!.onBackPressed()
+        }
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        videoView.start()
+        videoView!!.start()
     }
 
     override fun onPause() {
         super.onPause()
-        videoView.stop()
+        videoView!!.stop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        videoView.destroy();
+        if (videoView != null){
+            videoView!!.destroy()
+        }
     }
 
 }

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.single_column_grid_image.view.*
 import java.lang.Exception
 import java.time.Duration
 
-
+/*
 class ShareActivityGridViewAdapter(context: Context, resource: Int, var folderFiles : ArrayList<String>) : ArrayAdapter<String>(context, resource, folderFiles) {
 
     var inflater : LayoutInflater
@@ -86,3 +86,5 @@ class ShareActivityGridViewAdapter(context: Context, resource: Int, var folderFi
 
 
 }
+
+ */
