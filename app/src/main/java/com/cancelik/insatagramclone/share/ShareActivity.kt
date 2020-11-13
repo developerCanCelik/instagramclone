@@ -42,6 +42,7 @@ class ShareActivity : AppCompatActivity() {
         Dexter.withContext(this)
             .withPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE,
                             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            android.Manifest.permission.RECORD_AUDIO,
                             android.Manifest.permission.CAMERA)
             .withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
@@ -144,7 +145,37 @@ class ShareActivity : AppCompatActivity() {
         sharePagerAdaptor.addFragment(ShareVideoFragment())
         viewPager.adapter = sharePagerAdaptor
         shareTabLayout.setupWithViewPager(viewPager)
-        viewPager.currentItem = 1
+        viewPager.currentItem = 0
+        viewPager.offscreenPageLimit = 1
+        sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,1)
+        sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,2)
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+            override fun onPageSelected(position: Int) {
+                //AÇIK OLAN pager seçildiğinde işlemler yapıyoruz
+                if (position == 0){
+                    sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,1)
+                    sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,2)
+                    sharePagerAdaptor.selectFragmentViewPagerAdd(viewPager,0)
+
+                }
+                if(position == 1){
+                    sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,0)
+                    sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,2)
+                    sharePagerAdaptor.selectFragmentViewPagerAdd(viewPager,1)
+                }
+                if(position == 2){
+                    sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,0)
+                    sharePagerAdaptor.selectFragmentViewPagerClear(viewPager,1)
+                    sharePagerAdaptor.selectFragmentViewPagerAdd(viewPager,2)
+                }
+            }
+
+
+        })
 
     }
 

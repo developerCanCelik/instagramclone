@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.cancelik.insatagramclone"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -56,7 +56,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
-
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
     implementation 'com.firebaseui:firebase-ui-auth:6.3.0'
     //noinspection GradleCompatible
     implementation "com.android.support:design:26.1.0"
@@ -81,7 +81,10 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.exifinterface:exifinterface:1.3.1'
     implementation 'com.googlecode.mp4parser:isoparser:1.1.22'
-    //implementation 'com.cleveroad.bootstrap:kotlin-ffmpeg-video-compress:2.0.0'
+    //image and video videw
+    //api 'com.otaliastudios:cameraview:2.6.4'
+    implementation 'com.otaliastudios:cameraview:1.5.1'
+
 
 
 

@@ -72,7 +72,7 @@ class ShareGalleryFragment : Fragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    setupGridView( FileOperations.incomingFolderFiles(foldersPaths[position]))
+                    setupGridView(FileOperations.incomingFolderFiles(foldersPaths[position]))
             }
             //
         }
