@@ -8,6 +8,7 @@ import com.cancelik.insatagramclone.login.LoginActivity
 import com.cancelik.insatagramclone.utils.BottomNavigationViewHelper
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
     private val ACTIVITY_NO = 1
@@ -21,14 +22,15 @@ class SearchActivity : AppCompatActivity() {
         setupNavigationView()
     }
     fun setupNavigationView(){
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView)
-        BottomNavigationViewHelper.setupNavigation(this,bottomNavigationView)
-        var menu = bottomNavigationView.menu
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationSearchView)
+        BottomNavigationViewHelper.setupNavigation(this,bottomNavigationSearchView)
+        var menu = bottomNavigationSearchView.menu
         val menuItem = menu.getItem(ACTIVITY_NO)
         menuItem.setChecked(true)
         //Hepsine bottom navigation Menu ekle
 
     }
+
     private fun setupAuthListener() {
         //Kullanıcının oturum açıp açmadığı ile ilgili verileri tutan bir listener
         authListener = object : FirebaseAuth.AuthStateListener{

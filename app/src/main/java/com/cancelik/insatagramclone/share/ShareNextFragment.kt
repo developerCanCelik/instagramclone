@@ -1,6 +1,7 @@
 package com.cancelik.insatagramclone.share
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cancelik.insatagramclone.R
+import com.cancelik.insatagramclone.home.HomeActivity
 import com.cancelik.insatagramclone.model.Post
 import com.cancelik.insatagramclone.profile.UploadFragment
 import com.cancelik.insatagramclone.utils.EventbusDataEvents
@@ -63,6 +65,9 @@ class ShareNextFragment : Fragment() {
         view.nextFragmentPaylas.setOnClickListener {
             uploadPhotoOrVideoToStorage()
         }
+        view.nextFragmentBack.setOnClickListener {
+            this.activity!!.onBackPressed()
+        }
         return view
     }
 
@@ -107,6 +112,8 @@ class ShareNextFragment : Fragment() {
         ref.child("posts").child(userInformation.uid).child(postID).child("upload_date").setValue(
             ServerValue.TIMESTAMP
         )
+        val intent = Intent(activity, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        startActivity(intent)
 
     }
 

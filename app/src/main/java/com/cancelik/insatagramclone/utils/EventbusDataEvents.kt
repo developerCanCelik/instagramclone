@@ -10,4 +10,5 @@ class EventbusDataEvents {
     internal class PaylasilacakResmiGonder(var chosenFilePath : String?, var fileTypeImage : Boolean?)
 
     internal class GaleriSecilenDosyaYolunuGonder(var fileClick : String)
+    internal class KameraIzinBilgisiGonder(var cameraPermissionInformation : Boolean?)
 }

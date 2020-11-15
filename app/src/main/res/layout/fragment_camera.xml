@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/holo_orange_light"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_orange_light">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="261dp"
-        android:text="Camera Fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/homeCameraFragmentCameraView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cameraFlash="auto"
+        app:cameraJpegQuality="100"
+        app:cameraPlaySounds="true"
+        app:cameraSessionType="picture"
+        app:cameraWhiteBalance="auto">
+
+    </com.otaliastudios.cameraview.CameraView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/transporter">
+
+        <ImageView
+            android:id="@+id/homeCameraFragmentTakePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/beyaz"
+            app:srcCompat="@drawable/uvv_itv_player_play" />
+
+        <ImageView
+            android:id="@+id/homeCameraFragmentRefreshView"
+            android:layout_width="78dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/homeCameraFragmentTakePhoto"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_refresh" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</FrameLayout>

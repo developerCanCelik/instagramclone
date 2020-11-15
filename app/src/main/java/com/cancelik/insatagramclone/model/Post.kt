@@ -3,7 +3,7 @@ package com.cancelik.insatagramclone.model
 class Post {
     var user_id : String? = null
     var post_id : String? = null
-    var upload_date : String? = null
+    var upload_date : Long? = null
     var comment : String? = null
     var photo_uri : String? = null
 
@@ -11,7 +11,7 @@ class Post {
     constructor(
         user_id: String?,
         post_id: String?,
-        upload_date: String?,
+        upload_date: Long?,
         comment: String?,
         photo_uri: String?
     ) {

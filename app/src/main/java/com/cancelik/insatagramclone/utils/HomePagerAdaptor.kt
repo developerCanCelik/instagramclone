@@ -2,6 +2,7 @@ package com.cancelik.insatagramclone.utils
 
 
 import android.content.Context
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.Placeholder
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -21,7 +22,13 @@ class HomePagerAdaptor(private val context: Context, fm: FragmentManager) : Frag
     fun addFragment(fragment: Fragment){
         myFragmentList.add(fragment)
     }
-
+    fun selectFragmentViewPagerClear(viewGroup: ViewGroup, position: Int){
+        var clearFragment = this.instantiateItem(viewGroup,position)
+        this.destroyItem(viewGroup,position,clearFragment)
+    }
+    fun selectFragmentViewPagerAdd(viewGroup: ViewGroup, position: Int){
+        this.instantiateItem(viewGroup,position)
+    }
 
 }
 

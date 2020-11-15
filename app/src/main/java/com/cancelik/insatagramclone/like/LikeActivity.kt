@@ -8,6 +8,7 @@ import com.cancelik.insatagramclone.login.LoginActivity
 import com.cancelik.insatagramclone.utils.BottomNavigationViewHelper
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_like.*
 
 class LikeActivity : AppCompatActivity() {
     private val ACTIVITY_NO = 3
@@ -27,6 +28,8 @@ class LikeActivity : AppCompatActivity() {
         val menuItem = menu.getItem(ACTIVITY_NO)
         menuItem.setChecked(true)
     }
+
+
     private fun setupAuthListener() {
         //Kullanıcının oturum açıp açmadığı ile ilgili verileri tutan bir listener
         authListener = object : FirebaseAuth.AuthStateListener{

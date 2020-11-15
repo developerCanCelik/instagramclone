@@ -106,7 +106,7 @@
             android:layout_height="545dp"
             android:background="#000000"
             app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationSearchView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,7 @@
             android:layout_height="4dp"
             android:background="@color/bottom"
             android:foregroundTint="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationSearchView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +128,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-            android:id="@+id/bottomNavigationView"
+            android:id="@+id/bottomNavigationSearchView"
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:pointerIcon="zoom_in"

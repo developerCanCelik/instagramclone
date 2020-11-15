@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/homeActivityUserProfileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="8dp"
+        android:fitsSystemWindows="true"
+        android:src="@drawable/ic_discover_people"
+        app:civ_border_color="@color/siyah"
+        app:civ_border_width="1dp"
+        app:layout_constraintEnd_toStartOf="@+id/homeActivityUserTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/homeActivityUserTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Kullanıcı Adı"
+        android:textColor="@color/siyah"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/homeActivityUserProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/homeActivityUserProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/homeActivityUserProfileImage" />
+
+    <ImageView
+        android:id="@+id/homeActivityMenuItemImage"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/homeActivityUserProfileImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_menuicon" />
+
+    <com.cancelik.insatagramclone.utils.GridPrivateImageView
+        android:id="@+id/homeActivityUserPostImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeActivityUserProfileImage" />
+
+    <ImageView
+        android:id="@+id/homeActivityUserPostLikeImage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeActivityUserPostImage"
+        app:srcCompat="@drawable/ic_home_activity_like_icon" />
+
+    <ImageView
+        android:id="@+id/homeActivityUserPostCommentImage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/homeActivityUserPostLikeImage"
+        app:layout_constraintStart_toEndOf="@+id/homeActivityUserPostLikeImage"
+        app:layout_constraintTop_toTopOf="@+id/homeActivityUserPostLikeImage"
+        app:srcCompat="@drawable/ic_home_activity_comment_icon" />
+
+    <ImageView
+        android:id="@+id/homeActivityUserPostDirectImage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/homeActivityUserPostCommentImage"
+        app:layout_constraintStart_toEndOf="@+id/homeActivityUserPostCommentImage"
+        app:layout_constraintTop_toTopOf="@+id/homeActivityUserPostCommentImage"
+        app:srcCompat="@drawable/tab_direct_message" />
+
+    <ImageView
+        android:id="@+id/homeActivityUserPostSaveImage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeActivityUserPostImage"
+        app:srcCompat="@drawable/ic_home_activity_save_icon" />
+
+    <TextView
+        android:id="@+id/explanationUserNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Kullanıcı Adı"
+        android:textColor="@color/siyah"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeActivityUserPostLikeImage" />
+
+    <TextView
+        android:id="@+id/explanationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="explanation"
+        android:textColor="@color/siyah"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/explanationUserNameTextView"
+        app:layout_constraintStart_toEndOf="@+id/explanationUserNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/explanationUserNameTextView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
